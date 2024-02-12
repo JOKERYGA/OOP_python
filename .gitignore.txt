@@ -1,2 +1,2 @@
 # Игнорировать файл conspect.txt
-C:\documents\oop_python\conspect.txt
+conspect.txt
