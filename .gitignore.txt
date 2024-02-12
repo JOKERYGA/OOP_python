@@ -1,0 +1,2 @@
+# Игнорировать файл conspect.txt
+conspect.txt
