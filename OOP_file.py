@@ -1,40 +1,35 @@
 from typing import Any
 
 
-class Shop:
-    def __init__(self, name) -> None:
-        self.name = name
-        self.goods = []
-
-    def add_product(self, product):
-        self.goods.append(product)
-
-    def remove_product(self, product):
-        self.goods.remove(product)
+class Course:
+    pass
 
 
-class Product:
-    def __init__(self, name, weight: int, price: int) -> None:
-        self.name = name
-        self.id = id(self)
-        if weight < 0 or price < 0:
-            raise TypeError("Неверный тип присваиваемых данных.")
-        else:
-            self.weight = weight
-            self.price = price
+class Module:
+    pass
 
-    def __setattr__(self, name: str, value) -> None:
-        if name == 'name' and not isinstance(value, str):
+
+class LessonItem:
+    def __init__(self, title: str, practices: int, duration: int) -> None:
+        self.title = title
+        self.practices = practices
+        self.duration = duration
+
+    def __setattr__(self, name, value: Any) -> None:
+        if name == 'title' and not isinstance(value, str):
             raise TypeError("Неверный тип присваиваемых данных.")
-        elif name == 'weight' and not type(value) in (int, float) and value < 0:
-            raise TypeError("Неверный тип присваиваемых данных.")
-        elif name == 'price' and not type(value) in (int, float) and value < 0:
-            raise TypeError("Неверный тип присваиваемых данных.")
-        elif name == 'id' and not isinstance(value, int):
-            raise TypeError("Неверный тип присваиваемых данных.")
-        else:
-            object.__setattr__(self, name, value)
+        elif name in ('practices', 'duration'):
+            if not isinstance(value, int):
+                raise TypeError("Неверный тип присваиваемых данных.")
+        object.__setattr__(self, name, value)
+    
+    def __getattr__(self, name) -> Any:
+        return False
 
     def __delattr__(self, name: str) -> None:
-        if name == "id":
-            raise AttributeError("Атрибут id удалять запрещено.")
+        if name in ('title', 'practices', 'duration'):
+            raise AttributeError("Запрещено удалять атрибуты title, practices и duration.")
+        object.__delattr__(self, name)
+        
+pt1 = LessonItem("gdff",5,6)
+print(pt1.a)
