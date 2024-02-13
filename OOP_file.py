@@ -1,36 +1,36 @@
-class Museum:
-    def __init__(self, name) -> None:
-        self.name = name
-        self.exhibits = []
+class SmartPhone:
+    def __init__(self, model) -> None:
+        self.model = model
+        self.apps = []
         
-    def add_exhibit(self, obj):
-        self.exhibits.append(obj)
-
-    def remove_exhibit(self, obj):
-        self.exhibits.remove(obj)
-
-    def get_info_exhibit(self, indx):
-        if 0 <= indx <= len(self.exhibits) - 1:
-            class_instance = self.exhibits[indx]
-            return f"Описание экспоната {class_instance.name}: {class_instance.descr}"
-                
-
-class Picture:
-    def __init__(self, name, author, descr):
-        self.name = name
-        self.author = author
-        self.descr = descr
+    def add_app(self, app):
+        if type(app) not in [type(x) for x in self.apps]:
+            self.apps.append(app)
+        
+    def remove_app(self, app):
+        if app in self.apps:
+            self.apps.remove(app)
 
 
-class Mummies:
-    def __init__(self, name, location, descr):
-        self.name = name
-        self.location = location
-        self.descr = descr
+class AppVK:
+    def __init__(self):
+        self.name = "ВКонтакте"
 
 
-class Papyri:
-    def __init__(self, name, date, descr):
-        self.name = name
-        self.date = date
-        self.descr = descr
+class AppYouTube:
+    def __init__(self, memory_max):
+        self.name = "YouTube"
+        self.memory_max = memory_max
+
+
+class AppPhone:
+    def __init__(self, phone_list):
+        self.name = "Phone"
+        self.phone_list = phone_list
+        
+sm = SmartPhone("Honor 1.0")
+sm.add_app(AppVK())
+sm.add_app(AppVK())  # второй раз добавляться не должно
+sm.add_app(AppYouTube(2048))
+for a in sm.apps:
+    print(a.name)
