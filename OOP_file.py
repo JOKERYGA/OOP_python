@@ -1,25 +1,22 @@
 from typing import Any
-from typing import Union
 
 
-class DigitRetrieve:
-    def __call__(self, string) -> Union[int, None]:
-        try:
-            # Попытка преобразовать строку в целое число
-            num = int(string)
-            return num
-        except ValueError:
-            # Если преобразование невозможно, возвращаем None
-            return None
+class RenderList:
+    def __init__(self, type_list) -> None:
+        self.type_list = type_list if type_list in {'ul', 'ol'} else "ul"
+        
+    def __call__(self, lst) -> Any:
+        if not lst:
+            return ''
+        
+        html = f"<{self.type_list}>\n"
+        for item in lst:
+            html += f"<li>{item}</li>\n"
+        html += f"</{self.type_list}>"
+        return html
 
 
-dg = DigitRetrieve()   
-d1 = dg("123")   # 123 (целое число)
-d2 = dg("45.54")   # None (не целое число)
-d3 = dg("-56")   # -56 (целое число)
-d4 = dg("12fg")  # None (не целое число)
-d5 = dg("abc")   # None (не целое число)
-
-st = ["123", "abc", "-56.4", "0", "-5"]
-digits = list(map(dg, st))  # [123, None, None, 0, -5]
-print(digits)
+lst = ["Пункт меню 1", "Пункт меню 2", "Пункт меню 3"]
+render = RenderList("ol")
+html = render(lst)
+print(html)
