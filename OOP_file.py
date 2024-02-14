@@ -1,36 +1,15 @@
-class SmartPhone:
-    def __init__(self, model) -> None:
-        self.model = model
-        self.apps = []
+from typing import Any
+
+
+class ImageFileAcceptor:
+    def __init__(self, extensions: tuple):
+        self.extensions = extensions
         
-    def add_app(self, app):
-        if type(app) not in [type(x) for x in self.apps]:
-            self.apps.append(app)
-        
-    def remove_app(self, app):
-        if app in self.apps:
-            self.apps.remove(app)
+    def __call__(self, filename) -> Any:
+        return any(filename.lower().endswith(ext) for ext in self.extensions)
 
 
-class AppVK:
-    def __init__(self):
-        self.name = "ВКонтакте"
-
-
-class AppYouTube:
-    def __init__(self, memory_max):
-        self.name = "YouTube"
-        self.memory_max = memory_max
-
-
-class AppPhone:
-    def __init__(self, phone_list):
-        self.name = "Phone"
-        self.phone_list = phone_list
-        
-sm = SmartPhone("Honor 1.0")
-sm.add_app(AppVK())
-sm.add_app(AppVK())  # второй раз добавляться не должно
-sm.add_app(AppYouTube(2048))
-for a in sm.apps:
-    print(a.name)
+filenames = ["boat.jpg", "web.png", "text.txt", "python.doc", "ava.jpg", "forest.jpeg", "eq_1.png", "eq_2.png"]
+acceptor = ImageFileAcceptor(('jpg', 'bmp', 'jpeg'))
+image_filenames = filter(acceptor, filenames)
+print(list(image_filenames))  # ["boat.jpg", "ava.jpg", "forest.jpeg"]
