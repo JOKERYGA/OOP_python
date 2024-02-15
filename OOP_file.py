@@ -1,36 +1,50 @@
-import re
+from typing import Any
+from math import sqrt
 
-class WordString:
-    def __init__(self, string="") -> None:
-        self.__string = string
 
+class Complex:
+    def __init__(self, real, img) -> None:
+        self.real = real
+        self.img = img
+    
+    @staticmethod
+    def correct_val(value):
+        if type(value) not in (int, float):
+            raise ValueError("Неверный тип данных.")
+    
     @property
-    def string(self):
-        return self.__string
-
-    @string.setter
-    def string(self, value):
-        # При установке значения свойства string
-        # производим преобразование строки в список слов
-        self.__string = value
-
-    def __str__(self) -> str:
-        return self.__string
-
-    def __len__(self):
-        # Преобразуем строку в список слов и возвращаем его длину
-        return len(re.findall(r'\b\w+\b', self.__string))
-
-    def __call__(self, index):
-        words = re.findall(r'\b\w+\b', self.__string)
-        if 0 <= index < len(words):
-            return words[index]
+    def real(self):
+        return self._real
+    
+    @real.setter
+    def real(self, value):
+        if isinstance(value, (int, float)):
+            self._real = value
         else:
-            raise IndexError("Индекс выходит за пределы списка слов")
+            raise ValueError("Неверный тип данных для действительной части.")
+        
+    @property
+    def img(self):
+        return self._img
+    
+    @img.setter
+    def img(self, value):
+        if isinstance(value, (int, float)):
+            self._img = value
+        else:
+            raise ValueError("Неверный тип данных для мнимой части.")
+    
+    def __abs__(self):
+        return sqrt(self.real**2 + self.img**2)
 
-words = WordString()
-words.string = "Курс по Python ООП"
-n = len(words)
-first = "" if n == 0 else words(0)
-print(words.string)
-print(f"Число слов: {n}; первое слово: {first}")
+
+# Создание объекта класса Complex
+cmp = Complex(7, 8)
+
+# Установка новых значений для real и img через экземпляр класса
+cmp.real = 3
+cmp.img = 4
+
+# Вычисление модуля полученного комплексного числа
+c_abs = abs(cmp)
+print(c_abs)
