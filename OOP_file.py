@@ -1,22 +1,16 @@
-from typing import Any
+import sys
 
 
-class RenderList:
-    def __init__(self, type_list) -> None:
-        self.type_list = type_list if type_list in {'ul', 'ol'} else "ul"
+class Book:
+    def __init__(self, title: str, author: str, pages: int) -> None:
+        self.title = title
+        self.author = author
+        self.pages = pages
 
-    def __call__(self, lst) -> Any:
-        if not lst:
-            return ''
-
-        html = f"<{self.type_list}>\n"
-        for item in lst:
-            html += f"<li>{item}</li>\n"
-        html += f"</{self.type_list}>"
-        return html
+    def __str__(self) -> str:
+        return f"Книга: {self.title}; {self.author}; {self.pages}"
 
 
-lst = ["Пункт меню 1", "Пункт меню 2", "Пункт меню 3"]
-render = RenderList("ol")
-html = render(lst)
-print(html)
+lst_in = list(map(str.strip, sys.stdin.readlines()))
+book = Book(*lst_in)
+print(book)
