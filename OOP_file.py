@@ -1,33 +1,28 @@
-import math
+class Animal:
+    def __init__(self, name: str, old: int) -> None:
+        self.name = name
+        self.old = old
 
 
-class RadiusVector:
-    def __init__(self, *args) -> None:
-        if len(args) == 1:
-            self.coordinates = [0] * args[0]
-        else:
-            self.coordinates = list(args)
+class Cat(Animal):
+    def __init__(self, name, old, color, weight) -> None:
+        super().__init__(name, old)
+        self.color = color
+        self.weight = weight
 
-    def set_coords(self, *args):
-        for ind in range(len(args)):
-            if ind < len(self.coordinates):
-                self.coordinates[ind] = args[ind]
-    
-    def get_coords(self):
-        return tuple(self.coordinates)
-    
-    def __len__(self):
-        return len(self.coordinates)
-    
-    def __abs__(self):
-        sum_of_squares = sum(coord ** 2 for coord in self.coordinates)
-        return math.sqrt(sum_of_squares)
+    def get_info(self):
+        return f'{self.name}: {self.old}, {self.color}, {self.weight}'
 
 
-vector3D = RadiusVector(3)
-vector3D.set_coords(3, -5.6, 8)
-a, b, c = vector3D.get_coords()
-vector3D.set_coords(3, -5.6, 8, 10, 11) # ошибки быть не должно, последние две координаты игнорируются
-vector3D.set_coords(1, 2) # ошибки быть не должно, меняются только первые две координаты
-res_len = len(vector3D) # res_len = 3
-res_abs = abs(vector3D)
+class Dog(Animal):
+    def __init__(self, name, old, breed, size: tuple) -> None:
+        super().__init__(name, old)
+        self.breed = breed
+        self.size = size
+
+    def get_info(self):
+        return f'{self.name}: {self.old}, {self.breed}, {self.size}'
+
+
+cat = Cat('кот', 4, 'black', 2.25)
+print(cat.get_info())
