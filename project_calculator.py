@@ -13,7 +13,7 @@ class Record:
 
 class Calculator:
     def __init__(self, limit: int) -> None:
-        self.limit = limit
+        self.limit = limit #дневной лимит трат/калорий
         self.records = []
     
     def add_record(self, record):
@@ -32,42 +32,29 @@ class Calculator:
         return sum(record.amount for record in self.records
                    if week_ago <= record.date <= today)
 
+
 class CashCalculator(Calculator):
     USD_RATE = 92.55
     EURO_RATE = 99.35
-    
-    def add_record():
-        """Сохранять новую запись о расходах"""
-        pass
 
-    def get_today_stats():
-        """Считать, сколько денег потрачено сегодня"""
-        pass
 
     def get_today_cash_remained(self, currency):
         """Определять, сколько ещё денег можно потратить сегодня в рублях,
         долларах или евро"""
         pass
 
-    def get_week_stats(self):
-        """Считать, сколько денег потрачено за последние 7 дней"""
-        pass
-
 
 class CaloriesCalculator(Calculator):
-    def get_today_stats():
-        """Считать, сколько денег потрачено сегодня"""
-        pass
 
     def get_calories_remained(self):
-        """Определять, сколько ещё денег можно потратить сегодня в рублях,
-        долларах или евро"""
-        pass
-
-    def get_week_stats(self):
-        """Считать, сколько денег потрачено за последние 7 дней"""
-        pass
-
+        """Определять, сколько ещё калорий можно/нужно получить сегодня"""
+        today_stats = self.get_today_stats()
+        if today_stats < self.limit:
+            return f"Сегодня можно съесть что-нибудь ещё,
+                    но с общей калорийностью не более {self.limit - today_stats} кКал"
+        else:
+            return "Хватит есть!"
+            
 
 
 
