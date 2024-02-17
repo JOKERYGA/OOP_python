@@ -1,28 +1,32 @@
-class Animal:
-    def __init__(self, name: str, old: int) -> None:
+import itertools
+
+
+class Thing:
+    id_counter = itertools.count(1)
+
+    def __init__(self, name, price):
         self.name = name
-        self.old = old
+        self.price = price
+        self.id = next(Thing.id_counter)
+        self.weight = None
+        self.dims = None
+        self.memory = None
+        self.frm = None
+
+    def get_data(self):
+        return (self.id, self.name, self.price, self.weight,
+                self.dims, self.memory, self.frm)
 
 
-class Cat(Animal):
-    def __init__(self, name, old, color, weight) -> None:
-        super().__init__(name, old)
-        self.color = color
+class Table(Thing):
+    def __init__(self, name, price, weight, dims):
+        super().__init__(name, price)
         self.weight = weight
-
-    def get_info(self):
-        return f'{self.name}: {self.old}, {self.color}, {self.weight}'
+        self.dims = dims
 
 
-class Dog(Animal):
-    def __init__(self, name, old, breed, size: tuple) -> None:
-        super().__init__(name, old)
-        self.breed = breed
-        self.size = size
-
-    def get_info(self):
-        return f'{self.name}: {self.old}, {self.breed}, {self.size}'
-
-
-cat = Cat('кот', 4, 'black', 2.25)
-print(cat.get_info())
+class ElBook(Thing):
+    def __init__(self, name, price, memory, frm):
+        super().__init__(name, price)
+        self.memory = memory
+        self.frm = frm
