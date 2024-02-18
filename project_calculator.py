@@ -13,7 +13,7 @@ class Record:
 
 class Calculator:
     def __init__(self, limit: int) -> None:
-        self.limit = limit #дневной лимит трат/калорий
+        self.limit = limit # дневной лимит трат/калорий
         self.records = []
     
     def add_record(self, record):
@@ -39,7 +39,7 @@ class CashCalculator(Calculator):
 
 
     def get_today_cash_remained(self, currency):
-        """Определять, сколько ещё денег можно потратить сегодня в рублях,
+        """Должен определять, сколько ещё денег можно потратить сегодня в рублях,
         долларах или евро"""
         pass
 
@@ -50,8 +50,8 @@ class CaloriesCalculator(Calculator):
         """Определять, сколько ещё калорий можно/нужно получить сегодня"""
         today_stats = self.get_today_stats()
         if today_stats < self.limit:
-            return f"Сегодня можно съесть что-нибудь ещё,
-                    но с общей калорийностью не более {self.limit - today_stats} кКал"
+            return "Сегодня можно съесть что-нибудь ещё, но с общей "\
+                   f"калорийностью не более {self.limit - today_stats} кКал"
         else:
             return "Хватит есть!"
             
