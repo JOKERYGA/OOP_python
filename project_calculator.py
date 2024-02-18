@@ -15,18 +15,19 @@ class Calculator:
     def __init__(self, limit: int) -> None:
         self.limit = limit # дневной лимит трат/калорий
         self.records = []
-    
+
     def add_record(self, record):
-        """Сохранять новую запись о расходах"""
+        """Сохраняет новую запись о расходах"""
         self.records.append(record)
 
     def get_today_stats(self):
-        """Считать, сколько денег потрачено сегодня"""
+        """Считает, сколько денег потрачено сегодня"""
         today = datetime.datetime.now().date()
-        return sum(record.amount for record in self.records if record.date == today)
+        return sum(record.amount for record in self.records
+                   if record.date == today)
 
     def get_week_stats(self):
-        """Считать, сколько денег потрачено за последние 7 дней"""
+        """Считает, сколько денег потрачено за последние 7 дней"""
         today = datetime.datetime.now().date()
         week_ago = today - datetime.datetime(days=7)
         return sum(record.amount for record in self.records
@@ -37,41 +38,40 @@ class CashCalculator(Calculator):
     USD_RATE = 92.55
     EURO_RATE = 99.35
 
-
     def get_today_cash_remained(self, currency):
-        """Должен определять, сколько ещё денег можно потратить сегодня в рублях,
-        долларах или евро"""
-        pass
+        """Должен определять, сколько ещё денег можно потратить сегодня
+        в рублях,долларах или евро"""
+        today_stats = self.get_today_stats()
+
+        currencies_dict = {
+            'rub': (1, 'руб'),
+            'usd': (self.USD_RATE, 'USD'),
+            'eur': (self.EURO_RATE, 'Euro')
+        }
+        rate, currency_name = currencies_dict[currency]
+        cash_remained = round((self.limit - today_stats) / rate, 2)
+
+        if cash_remained > 0:
+            return f"На сегодня осталось  {cash_remained} {currency_name}"
+        elif cash_remained == 0:
+            return 'Денег нет, держись'
+        else:
+            return f"Денег нет, держись: твой долг - {abs(cash_remained)}"\
+                    f"{currency_name}"
 
 
 class CaloriesCalculator(Calculator):
 
     def get_calories_remained(self):
-        """Определять, сколько ещё калорий можно/нужно получить сегодня"""
+        """Определяет, сколько ещё калорий можно/нужно получить сегодня"""
         today_stats = self.get_today_stats()
         if today_stats < self.limit:
             return "Сегодня можно съесть что-нибудь ещё, но с общей "\
                    f"калорийностью не более {self.limit - today_stats} кКал"
         else:
             return "Хватит есть!"
-            
-
-
-
 
 # TESTS
-r1 = Record(amount=145, comment='Безудержный шопинг', date='08.03.2019')
-r2 = Record(amount=1568,
-            comment='Наполнение потребительской корзины',
-            date='09.03.2019')
-r3 = Record(amount=691, comment='Катание на такси', date='08.03.2019')
-
-# для CaloriesCalculator
-r4 = Record(amount=1186,
-            comment='Кусок тортика. И ещё один.',
-            date='24.02.2019')
-r5 = Record(amount=84, comment='Йогурт.', date='23.02.2019')
-r6 = Record(amount=1140, comment='Баночка чипсов.', date='24.02.2019') 
 # создадим калькулятор денег с дневным лимитом 1000
 cash_calculator = CashCalculator(1000)
 
@@ -88,4 +88,4 @@ cash_calculator.add_record(Record(amount=3000,
 
 print(cash_calculator.get_today_cash_remained('rub'))
 # должно напечататься
-# На сегодня осталось 555 руб 
+# На сегодня осталось 555 руб
