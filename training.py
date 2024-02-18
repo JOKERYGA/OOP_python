@@ -3,7 +3,8 @@ class ListInteger(list):
         if iterable is not None:
             for item in iterable:
                 if not isinstance(item, int):
-                    raise TypeError("можно передавать только целочисленные значения")
+                    raise TypeError("можно передавать"
+                                    "только целочисленные значения")
         super().__init__(iterable)
 
     def __setitem__(self, index, value):
