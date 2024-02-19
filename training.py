@@ -1,38 +1,52 @@
-class Thing:
-    def __init__(self, name: str, weight: float):
+class SellItem:
+    def __init__(self, name, price) -> None:
         self.name = name
-        self.weight = weight
+        self.price = price
 
 
-class ArtObject(Thing):
-    def __init__(self, name: str, weight: float, author: str, date: str):
-        super().__init__(name, weight)
-        self.author = author
-        self.date = date
+class House(SellItem):
+    def __init__(self, name, price, material, square):
+        super().__init__(name, price)
+        self.material = material
+        self.square = square
 
 
-class Computer(Thing):
-    def __init__(self, name: str, weight: float, memory: int, cpu: str):
-        super().__init__(name, weight)
-        self.memory = memory
-        self.cpu = cpu
+class Flat(SellItem):
+    def __init__(self, name, price, size, rooms) -> None:
+        super().__init__(name, price)
+        self.size = size
+        self.rooms = rooms
 
 
-class Auto(Thing):
-    def __init__(self, name: str, weight: float, dims: tuple):
-        super().__init__(name, weight)
-        self.dims = dims
+class Land(SellItem):
+    def __init__(self, name, price, square) -> None:
+        super().__init__(name, price)
+        self.square = square
 
 
-class Mercedes(Auto):
-    def __init__(self, name: str, weight: float, dims: tuple, model, old):
-        super().__init__(name, weight, dims)
-        self.model = model
-        self.old = old
+class Agency:
+    def __init__(self, name) -> None:
+        self.name = name
+        self.objects = []
+
+    def add_object(self, obj):
+        self.objects.append(obj)
+
+    def remove_object(self, obj):
+        self.objects.remove(obj)
+
+    def get_objects(self):
+        return self.objects
 
 
-class Toyota(Auto):
-    def __init__(self, name: str, weight: float, dims: tuple, model, wheel):
-        super().__init__(name, weight, dims)
-        self.model = model
-        self.wheel = wheel
+
+ag = Agency("Рога и копыта")
+ag.add_object(Flat("квартира, 3к", 10000000, 121.5, 3))
+ag.add_object(Flat("квартира, 2к", 8000000, 74.5, 2))
+ag.add_object(Flat("квартира, 1к", 4000000, 54, 1))
+ag.add_object(House("дом, крипичный", price=35000000, material="кирпич", square=186.5))
+ag.add_object(Land("участок под застройку", 3000000, 6.74))
+for obj in ag.get_objects():
+    print(obj.name)
+
+lst_houses = [x for x in ag.get_objects() if isinstance(x, House)] # выделение списка домов
