@@ -1,29 +1,38 @@
-class Geom:
-    name = "Geom"
-    
-    def __init__(self, x1, y1, x2, y2):
-        print(f"Иницилизатор Geom для {self.__class__}")
-        self.x1 = x1
-        self.y1 = y1
-        self.x2 = x2
-        self.y2 = y2
+class Thing:
+    def __init__(self, name: str, weight: float):
+        self.name = name
+        self.weight = weight
 
 
-class Line(Geom):
-    def draw(self):
-        print("Рисование линии")
+class ArtObject(Thing):
+    def __init__(self, name: str, weight: float, author: str, date: str):
+        super().__init__(name, weight)
+        self.author = author
+        self.date = date
 
 
-class Rect(Geom):
-    def __init__(self, x1, y1, x2, y2, fill=None):
-        super().__init__(x1, y1, x2, y2)
-        print('инициализатор Rect')
-        self.fill = fill
- 
-    def draw(self):
-        print("Рисование прямоугольника")
+class Computer(Thing):
+    def __init__(self, name: str, weight: float, memory: int, cpu: str):
+        super().__init__(name, weight)
+        self.memory = memory
+        self.cpu = cpu
 
-   
-l = Line(0, 0, 10, 20)
-r = Rect(1, 2, 3, 4)
-print(r.__dict__)
+
+class Auto(Thing):
+    def __init__(self, name: str, weight: float, dims: tuple):
+        super().__init__(name, weight)
+        self.dims = dims
+
+
+class Mercedes(Auto):
+    def __init__(self, name: str, weight: float, dims: tuple, model, old):
+        super().__init__(name, weight, dims)
+        self.model = model
+        self.old = old
+
+
+class Toyota(Auto):
+    def __init__(self, name: str, weight: float, dims: tuple, model, wheel):
+        super().__init__(name, weight, dims)
+        self.model = model
+        self.wheel = wheel
