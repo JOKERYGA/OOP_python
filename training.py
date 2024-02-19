@@ -1,52 +1,23 @@
-class SellItem:
-    def __init__(self, name, price) -> None:
-        self.name = name
-        self.price = price
+from typing import Any
 
 
-class House(SellItem):
-    def __init__(self, name, price, material, square):
-        super().__init__(name, price)
-        self.material = material
-        self.square = square
+class Router:
+    app = {}
 
+    @classmethod
+    def get(cls, path):
+        return cls.app.get(path)
 
-class Flat(SellItem):
-    def __init__(self, name, price, size, rooms) -> None:
-        super().__init__(name, price)
-        self.size = size
-        self.rooms = rooms
+    @classmethod
+    def add_callback(cls, path, func):
+        cls.app[path] = func
 
-
-class Land(SellItem):
-    def __init__(self, name, price, square) -> None:
-        super().__init__(name, price)
-        self.square = square
-
-
-class Agency:
-    def __init__(self, name) -> None:
-        self.name = name
-        self.objects = []
-
-    def add_object(self, obj):
-        self.objects.append(obj)
-
-    def remove_object(self, obj):
-        self.objects.remove(obj)
-
-    def get_objects(self):
-        return self.objects
-
-
-
-ag = Agency("Рога и копыта")
-ag.add_object(Flat("квартира, 3к", 10000000, 121.5, 3))
-ag.add_object(Flat("квартира, 2к", 8000000, 74.5, 2))
-ag.add_object(Flat("квартира, 1к", 4000000, 54, 1))
-ag.add_object(House("дом, крипичный", price=35000000, material="кирпич", square=186.5))
-ag.add_object(Land("участок под застройку", 3000000, 6.74))
-for obj in ag.get_objects():
-    print(obj.name)
-
-lst_houses = [x for x in ag.get_objects() if isinstance(x, House)] # выделение списка домов
+# здесь объявляйте декоратор Callback
+class Callback:
+    def __init__(self, path, router_cls) -> None:
+        self.path = path
+        self.router_cls = router_cls
+    
+    def __call__(self, func) -> Any:
+        self.router_cls.add_callback(self.path, func)
+        return func
